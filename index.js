@@ -17,10 +17,18 @@ function makeFreelancer() {
 
   const name = NAMES[nameIndex];
   const occupation = OCCUPATIONS[occupationIndex];
-  const rate = Math.round((Math.random() * 180 + 20) * 100) / 100;
+  const rate = Math.floor(Math.random() * 180 + 20);
 
   return { name, occupation, rate };
 }
 
 const freeLancer = Array.from({ length: NUM_FREELANCERS }, makeFreelancer);
 console.log(freeLancer);
+
+function findAverageRate() {
+  const rateSum = freeLancer.reduce((sum, worker) => sum + worker.rate, 0);
+  const rateAvg = rateSum / NUM_FREELANCERS;
+}
+const rateSum = freeLancer.reduce((sum, worker) => sum + worker.rate, 0);
+const rateAvg = rateSum / NUM_FREELANCERS;
+console.log(rateAvg);
