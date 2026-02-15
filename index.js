@@ -22,13 +22,47 @@ function makeFreelancer() {
   return { name, occupation, rate };
 }
 
-const freeLancer = Array.from({ length: NUM_FREELANCERS }, makeFreelancer);
-console.log(freeLancer);
+const freeLancers = Array.from({ length: NUM_FREELANCERS }, makeFreelancer);
+console.log(freeLancers);
 
 function findAverageRate() {
-  const rateSum = freeLancer.reduce((sum, worker) => sum + worker.rate, 0);
+  const averageRow = document.createElement("avg");
+  const rateSum = freeLancers.reduce((sum, worker) => sum + worker.rate, 0);
   const rateAvg = rateSum / NUM_FREELANCERS;
+  averageRow.innerHTML = `<paragraph>The average rate for freelancers is: $${rateAvg}</paragraph>`;
+  return averageRow;
 }
-const rateSum = freeLancer.reduce((sum, worker) => sum + worker.rate, 0);
-const rateAvg = rateSum / NUM_FREELANCERS;
-console.log(rateAvg);
+// const rateSum = freeLancer.reduce((sum, worker) => sum + worker.rate, 0);
+// const rateAvg = rateSum / NUM_FREELANCERS;
+// console.log(rateAvg);
+
+function freelancerRow(worker) {
+  const row = document.createElement("row");
+  row.classList.add("freeLancer");
+  row.innerHTML = `<division>${worker.name} ${worker.occupation} $${worker.rate}</division><br></br>`;
+  //   console.log(row);
+  return row;
+}
+// freelancerRow(freeLancers[0]);
+
+function freelancerRows() {
+  const rows = document.createElement("table");
+  rows.classList.add("rows");
+  const $freeLancer = freeLancers.map(freelancerRow);
+  rows.replaceChildren(...$freeLancer);
+  return rows;
+}
+
+function render() {
+  const $app = document.querySelector("#app");
+  $app.innerHTML = `
+    <h1>Freelancer Forum</h1>
+    <average></average>
+    <br></br>
+    <paragraph>Name Occupation Rate</paragraph>
+    <freelancerRows></freelancerRows>`;
+  $app.querySelector("average").replaceWith(findAverageRate(freeLancers));
+  $app.querySelector("freelancerRows").replaceWith(freelancerRows(freeLancers));
+}
+
+render();
